@@ -52,15 +52,15 @@ _get_versions() {
       fi
 
       if [ "$EXIST" == "false" ]; then
-        # send slack message
-        _slack "$V1"
+        # send dispatch message
+        _dispatch "$V1"
       fi
     done <${SHELL_DIR}/versions/${NAME}
   fi
 }
 
-_slack() {
-  if [ -z "${SLACK_TOKEN}" ]; then
+_dispatch() {
+  if [ -z "${GITHUB_TOKEN}" ]; then
     return
   fi
 
