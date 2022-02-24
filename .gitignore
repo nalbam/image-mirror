@@ -18,19 +18,6 @@ $RECYCLE.BIN/
 target/
 build/
 
-# pytest
-__pycache__
-.pytest_cache
-
-# Nodejs
-node_modules/
-package-lock.json
-dist/
-
-# test
-reports/
-.scannerwork
-
 # JetBrains
 .idea/
 *.iml
@@ -38,8 +25,8 @@ reports/
 # Eclipse
 .settings/
 .metadata/
+.project
 
-# Temp
-*.pid
-*.log
-*.tmp
+# Cache
+.previous/
+.versions/

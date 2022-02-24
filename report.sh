@@ -12,6 +12,7 @@ _init() {
   rm -rf ${SHELL_DIR}/.previous
 
   mkdir ${SHELL_DIR}/target
+  mkdir ${SHELL_DIR}/versions
 
   cp -rf ${SHELL_DIR}/versions ${SHELL_DIR}/.previous
 }
@@ -24,14 +25,14 @@ _check() {
 }
 
 _get_versions() {
-  CHART="$1"
+  NAME="$1"
+  REPO="$2"
+  BASE_IMAGE="${3}"
+  IMAGE_NAME="${4}"
+  PLATFORM="${5:-"linux/amd64,linux/arm64"}"
+  BUILDX="${6:-"true"}"
 
-  BASE_IMAGE="${2}"
-  IMAGE_NAME="${3}"
-  PLATFORM="${4:-"linux/amd64,linux/arm64"}"
-  BUILDX="${5:-"true"}"
-
-  curl -sL https://api.github.com/repos/${CHART}/releases | jq '.[].tag_name' -r | grep -v '-' | head -10 \
+  curl -sL https://api.github.com/repos/${REPO}/releases | jq '.[].tag_name' -r | grep -v '-' | head -10 \
     >${SHELL_DIR}/versions/${NAME}
 
   while read V1; do
@@ -70,7 +71,7 @@ _slack() {
     -d "{\"event_type\":\"${EVENT_TYPE}\",\"client_payload\":{\"base_image\":\"${BASE_IMAGE}\",\"image_name\":\"${IMAGE_NAME}\",\"tag_name\":\"${VERSION}\",\"platform\":\"${PLATFORM}\",\"buildx\":\"${BUILDX}\"}}" \
     https://api.github.com/repos/${REPOSITORY}/dispatches
 
-  echo "# dispatch ${CHART} ${VERSION}"
+  echo "# dispatch ${REPO} ${VERSION}"
 }
 
 _message() {
