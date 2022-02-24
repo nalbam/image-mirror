@@ -11,6 +11,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Run Build
+        run: |
+          mkdir -p ./target
+          echo "v1.3.1" > ./target/TAG_NAME
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
 
@@ -18,27 +23,19 @@ jobs:
         id: buildx
         uses: docker/setup-buildx-action@v1
 
-      # - name: Configure AWS credentials
-      #   uses: aws-actions/configure-aws-credentials@v1
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_BRUCE }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_BRUCE }}
-      #     aws-region: ap-northeast-2
+      - name: Pull & Push to Docker Hub
+        uses: opspresso/action-docker@master
+        with:
+          args: --docker
+        env:
+          USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          BASE_IMAGE: quay.io/prometheus/node-exporter
+          IMAGE_NAME: prometheus-node-exporter
+          PLATFORM: "linux/amd64,linux/arm64"
+          BUILDX: "true"
 
-      # - name: Login to Amazon ECR
-      #   id: login-ecr
-      #   uses: aws-actions/amazon-ecr-login@v1
-
-      # - name: Docker pull and push
-      #   run: |
-      #     docker pull quay.io/prometheus/node-exporter:v1.3.1
-      #     docker image inspect quay.io/prometheus/node-exporter:v1.3.1
-
-      #     docker tag quay.io/prometheus/node-exporter:v1.3.1 ${{ steps.login-ecr.outputs.registry }}/mirror/prometheus/node-exporter:v1.3.1
-      #     docker images
-      #     docker push ${{ steps.login-ecr.outputs.registry }}/mirror/prometheus/node-exporter:v1.3.1
-
-      - name: Build & Push to AWS ECR Private
+      - name: Pull & Push to AWS ECR Private
         uses: opspresso/action-docker@master
         with:
           args: --ecr
@@ -48,5 +45,5 @@ jobs:
           AWS_REGION: "ap-northeast-2"
           BASE_IMAGE: quay.io/prometheus/node-exporter
           IMAGE_NAME: quay.io/prometheus/node-exporter
-          TAG_NAME: "v1.3.1"
           PLATFORM: "linux/amd64,linux/arm64"
+          BUILDX: "true"
