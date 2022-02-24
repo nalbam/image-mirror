@@ -31,7 +31,7 @@ jobs:
           USERNAME: ${{ secrets.DOCKER_USERNAME }}
           PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           BASE_IMAGE: quay.io/prometheus/node-exporter
-          IMAGE_NAME: prometheus-node-exporter
+          IMAGE_NAME: nalbam/prometheus-node-exporter
           PLATFORM: "linux/amd64,linux/arm64"
           BUILDX: "true"
 
@@ -44,6 +44,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_BRUCE }}
           AWS_REGION: "ap-northeast-2"
           BASE_IMAGE: quay.io/prometheus/node-exporter
-          IMAGE_NAME: quay.io/prometheus/node-exporter
+          IMAGE_NAME: mirror/prometheus/node-exporter
           PLATFORM: "linux/amd64,linux/arm64"
           BUILDX: "true"
