@@ -18,56 +18,35 @@ jobs:
         id: buildx
         uses: docker/setup-buildx-action@v1
 
-      # - name: Login to DockerHub
-      #   uses: docker/login-action@v1
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
       #   with:
-      #     username: ${{ secrets.DOCKER_USERNAME }}
-      #     password: ${{ secrets.DOCKER_PASSWORD }}
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_BRUCE }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_BRUCE }}
+      #     aws-region: ap-northeast-2
 
-      # - name: Login to Github Container Registry
-      #   uses: docker/login-action@v1
-      #   with:
-      #     registry: ghcr.io
-      #     username: ${{ github.repository_owner }}
-      #     password: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Login to Amazon ECR
+      #   id: login-ecr
+      #   uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+      # - name: Docker pull and push
+      #   run: |
+      #     docker pull quay.io/prometheus/node-exporter:v1.3.1
+      #     docker image inspect quay.io/prometheus/node-exporter:v1.3.1
+
+      #     docker tag quay.io/prometheus/node-exporter:v1.3.1 ${{ steps.login-ecr.outputs.registry }}/mirror/prometheus/node-exporter:v1.3.1
+      #     docker images
+      #     docker push ${{ steps.login-ecr.outputs.registry }}/mirror/prometheus/node-exporter:v1.3.1
+
+      - name: Build & Push to AWS ECR Private
+        uses: opspresso/action-docker@master
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_BRUCE }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_BRUCE }}
-          aws-region: ap-northeast-2
-
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-
-      # - name: Docker meta
-      #   id: meta
-      #   uses: docker/metadata-action@v3
-      #   with:
-      #     images: |
-      #       nalbam/${{ github.event.repository.name }}
-      #       ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}
-      #       ${{ steps.login-ecr.outputs.registry }}/nalbam/${{ github.event.repository.name }}
-      #     tags: |
-      #       type=semver,pattern={{raw}},value=${{ steps.bump.outputs.version }}
-
-      - name: Docker pull
-        run: |
-          docker pull quay.io/prometheus/node-exporter:v1.3.1
-          docker image inspect quay.io/prometheus/node-exporter:v1.3.1
-
-          docker tag quay.io/prometheus/node-exporter:v1.3.1 ${{ steps.login-ecr.outputs.registry }}/prometheus/node-exporter:v1.3.1
-          docker images
-          docker push ${{ steps.login-ecr.outputs.registry }}/prometheus/node-exporter:v1.3.1
-
-      # - name: Build and push
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     builder: ${{ steps.buildx.outputs.name }}
-      #     context: .
-      #     platforms: linux/amd64,linux/arm64
-      #     push: true
-      #     tags: ${{ steps.meta.outputs.tags }}
-      #     labels: ${{ steps.meta.outputs.labels }}
+          args: --ecr
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_BRUCE }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_BRUCE }}
+          AWS_REGION: "ap-northeast-2"
+          BASE_IMAGE: quay.io/prometheus/node-exporter
+          IMAGE_NAME: quay.io/prometheus/node-exporter
+          TAG_NAME: "v1.3.1"
+          PLATFORM: "linux/amd64,linux/arm64"
