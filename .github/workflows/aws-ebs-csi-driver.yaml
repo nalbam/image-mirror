@@ -11,11 +11,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Run Build
-        run: |
-          mkdir -p ./target
-          echo "v1.5.0" > ./target/TAG_NAME
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
 
@@ -33,5 +28,6 @@ jobs:
           AWS_REGION: "ap-northeast-2"
           BASE_IMAGE: k8s.gcr.io/provider-aws/aws-ebs-csi-driver
           IMAGE_NAME: mirror/aws/aws-ebs-csi-driver
+          TAG_NAME: "v1.5.0"
           PLATFORM: "linux/amd64,linux/arm64"
           BUILDX: "true"

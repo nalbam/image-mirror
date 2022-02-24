@@ -26,8 +26,8 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_BRUCE }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_BRUCE }}
           AWS_REGION: "ap-northeast-2"
-          BASE_IMAGE: quay.io/prometheus/node-exporter
-          IMAGE_NAME: mirror/prometheus/node-exporter
-          TAG_NAME: "v1.2.2"
+          BASE_IMAGE: "docker.io/grafana/promtail"
+          IMAGE_NAME: "mirror/grafana/promtail"
+          TAG_NAME: "2.4.2"
           PLATFORM: "linux/amd64,linux/arm64"
           BUILDX: "true"
