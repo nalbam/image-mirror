@@ -28,8 +28,9 @@ _get_versions() {
   REPO="$2"
   BASE_IMAGE="${3}"
   IMAGE_NAME="${4}"
-  PLATFORM="${5:-"linux/amd64,linux/arm64"}"
-  BUILDX="${6:-"true"}"
+  STRIP="${5:-"false"}"
+  PLATFORM="${6:-"linux/amd64,linux/arm64"}"
+  BUILDX="${7:-"true"}"
 
   curl -sL https://api.github.com/repos/${REPO}/releases | jq '.[].tag_name' -r | grep -v '-' | head -10 \
     >${SHELL_DIR}/versions/${NAME}
@@ -53,7 +54,11 @@ _get_versions() {
 
       if [ "$EXIST" == "false" ]; then
         # send dispatch message
-        _dispatch "$V1"
+        if [ "$STRIP" == "true" ]; then
+          _dispatch "${V1}"
+        else
+          _dispatch "${V1:1}"
+        fi
       fi
     done <${SHELL_DIR}/versions/${NAME}
   fi
