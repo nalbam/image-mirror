@@ -1,0 +1,3 @@
+prometheus/node_exporter quay.io/prometheus/node-exporter mirror/prometheus/node-exporter
+grafana/loki docker.io/grafana/promtail mirror/grafana/promtail
+kubernetes-sigs/aws-ebs-csi-driver k8s.gcr.io/provider-aws/aws-ebs-csi-driver mirror/aws/aws-ebs-csi-driver
