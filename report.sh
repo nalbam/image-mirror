@@ -55,9 +55,9 @@ _get_versions() {
       if [ "$EXIST" == "false" ]; then
         # send dispatch message
         if [ "$STRIP" == "true" ]; then
-          _dispatch "${V1}"
-        else
           _dispatch "${V1:1}"
+        else
+          _dispatch "${V1}"
         fi
       fi
     done <${SHELL_DIR}/versions/${NAME}
