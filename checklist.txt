@@ -2,5 +2,5 @@ aws-ebs-csi-driver kubernetes-sigs/aws-ebs-csi-driver k8s.gcr.io/provider-aws/aw
 aws-efs-csi-driver kubernetes-sigs/aws-efs-csi-driver amazon/aws-efs-csi-driver mirror/k8s-aws/aws-efs-csi-driver
 grafana-promtail grafana/loki docker.io/grafana/promtail mirror/grafana/promtail true
 k8s-csi-node-driver-registrar kubernetes-csi/node-driver-registrar k8s.gcr.io/sig-storage/csi-node-driver-registrar mirror/k8s-sig-storage/csi-node-driver-registrar
-k8s-livenessprobe kubernetes-csi/livenessprobe k8s.gcr.io/sig-storage/clivenessprobe mirror/k8s-sig-storage/livenessprobe
+k8s-livenessprobe kubernetes-csi/livenessprobe k8s.gcr.io/sig-storage/livenessprobe mirror/k8s-sig-storage/livenessprobe
 prometheus-node-exporter prometheus/node_exporter quay.io/prometheus/node-exporter mirror/prometheus/node-exporter
