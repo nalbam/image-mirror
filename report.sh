@@ -32,6 +32,10 @@ _get_versions() {
   PLATFORM="${6:-"linux/amd64,linux/arm64"}"
   BUILDX="${7:-"true"}"
 
+  if [ "$NAME" == "#" ]; then
+    return
+  fi
+
   curl -sL https://api.github.com/repos/${REPO}/releases | jq '.[].tag_name' -r | grep -v '-' | head -10 \
     >${SHELL_DIR}/versions/${NAME}
 
