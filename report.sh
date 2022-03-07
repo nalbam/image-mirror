@@ -37,9 +37,13 @@ _get_versions() {
   fi
 
   curl -sL https://api.github.com/repos/${REPO}/releases | jq '.[].tag_name' -r | grep -v '-' | head -10 \
-    >${SHELL_DIR}/versions/${NAME}
+    >${SHELL_DIR}/target/${NAME}
 
-  if [ -f ${SHELL_DIR}/versions/${NAME} ]; then
+  COUNT=$(cat ${SHELL_DIR}/target/${NAME} | wc -l | xargs)
+
+  if ["x${COUNT}" != "x0" ]; then
+    cp -rf ${SHELL_DIR}/target/${NAME} ${SHELL_DIR}/versions/${NAME}
+
     while read V1; do
       if [ -z "$V1" ]; then
         continue
