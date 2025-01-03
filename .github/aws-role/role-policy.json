@@ -4,12 +4,7 @@
     {
       "Effect": "Allow",
       "Action": [
-        "ecr:GetAuthorizationToken",
-        "ecr:BatchCheckLayerAvailability",
-        "ecr:CompleteLayerUpload",
-        "ecr:UploadLayerPart",
-        "ecr:InitiateLayerUpload",
-        "ecr:PutImage"
+        "ecr:*"
       ],
       "Resource": "arn:aws:ecr:*:*:repository/mirror/*"
     }
