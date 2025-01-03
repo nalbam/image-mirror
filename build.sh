@@ -20,13 +20,13 @@ _check() {
   # check versions
   while read LINE; do
     _get_versions ${LINE}
-  done <${SHELL_DIR}/checklist.txt
+  done <${SHELL_DIR}/images.txt
 }
 
 _get_versions() {
   NAME="$1"
-  REPO="$2"
-  BASE_IMAGE="${3}"
+  BASE_IMAGE="$2"
+  VERSION="${3}"
   IMAGE_NAME="${4}"
   STRIP="${5:-"false"}"
   PLATFORM="${6:-"linux/amd64,linux/arm64"}"
@@ -36,8 +36,7 @@ _get_versions() {
     return
   fi
 
-  curl -sL https://api.github.com/repos/${REPO}/releases | jq '.[].tag_name' -r | grep -v '-' | head -10 \
-    >${SHELL_DIR}/target/${NAME}
+  echo "${VERSION}" >${SHELL_DIR}/target/${NAME}
 
   COUNT=$(cat ${SHELL_DIR}/target/${NAME} | wc -l | xargs)
 
@@ -54,7 +53,6 @@ _get_versions() {
         while read V2; do
           if [ "$V1" == "$V2" ]; then
             EXIST="true"
-            # echo "# ${NAME} ${V1} EXIST"
             continue
           fi
         done <${SHELL_DIR}/.previous/${NAME}
@@ -63,12 +61,7 @@ _get_versions() {
       echo "# version ${NAME} ${V1}"
 
       if [ "$EXIST" == "false" ]; then
-        # send dispatch message
-        if [ "$STRIP" == "true" ]; then
-          _dispatch "${V1:1}"
-        else
-          _dispatch "${V1}"
-        fi
+        _dispatch "${V1}"
       fi
     done <${SHELL_DIR}/versions/${NAME}
   fi
@@ -83,7 +76,7 @@ _dispatch() {
 
   EVENT_TYPE="mirror"
 
-  echo "# dispatch ${REPO} ${VERSION}"
+  echo "# dispatch ${NAME} ${VERSION}"
 
   curl -sL -X POST \
     -H "Accept: application/vnd.github.v3+json" \

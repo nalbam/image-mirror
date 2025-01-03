@@ -1,0 +1,7 @@
+aws-ebs-csi-driver public.ecr.aws/ebs-csi-driver/aws-ebs-csi-driver v1.36.0 mirror/k8s-aws/aws-ebs-csi-driver
+aws-efs-csi-driver amazon/aws-efs-csi-driver v1.7.0 mirror/k8s-aws/aws-efs-csi-driver
+brancz-kube-rbac-proxy quay.io/brancz/kube-rbac-proxy v0.14.2 mirror/brancz/kube-rbac-proxy
+grafana-promtail docker.io/grafana/promtail 2.9.8 mirror/grafana/promtail
+k8s-csi-node-driver-registrar public.ecr.aws/eks-distro/kubernetes-csi/node-driver-registrar v2.12.0-eks-1-31-5 mirror/k8s-sig-storage/csi-node-driver-registrar
+k8s-livenessprobe public.ecr.aws/eks-distro/kubernetes-csi/livenessprobe v2.14.0-eks-1-31-5 mirror/k8s-sig-storage/livenessprobe
+prometheus-node-exporter quay.io/prometheus/node-exporter v1.6.1 mirror/prometheus/node-exporter
