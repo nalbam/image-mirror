@@ -43,7 +43,8 @@ jobs:
 
       - name: Push image to AWS ECR
         run: |
-          aws ecr describe-repositories --repository-names ${{ env.IMAGE_NAME }}
+          aws ecr get-login-password --region ${{ env.AWS_REGION }} | \
+            docker login --username AWS --password-stdin ${{ env.REPOSITORY }}
           docker buildx imagetools create \
             --tag ${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ env.TAG_NAME }} \
             ${{ env.BASE_IMAGE }}:${{ env.TAG_NAME }}
