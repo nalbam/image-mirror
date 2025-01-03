@@ -6,9 +6,8 @@ on:
       - mirror
 
 env:
-  AWS_ACCOUNT_ID: "396608815058"
   AWS_REGION: "ap-northeast-2"
-  AWS_ROLE_ARN: "arn:aws:iam::${AWS_ACCOUNT_ID}:role/image-mirror"
+  AWS_ROLE_ARN: "arn:aws:iam::396608815058:role/image-mirror"
 
   BASE_IMAGE: ${{ github.event.client_payload.base_image }}
   IMAGE_NAME: ${{ github.event.client_payload.image_name }}
@@ -16,7 +15,7 @@ env:
   PLATFORM: ${{ github.event.client_payload.platform }}
   BUILDX: ${{ github.event.client_payload.buildx }}
 
-  REPOSITORY: "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
+  REPOSITORY: "396608815058.dkr.ecr.ap-northeast-2.amazonaws.com"
 
 # Permission can be added at job level or workflow level
 permissions:
@@ -42,7 +41,7 @@ jobs:
           role-session-name: github-actions-ci-bot
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Push image to ECR
+      - name: Push image to AWS ECR
         run: |
           docker buildx imagetools create \
             --tag ${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ env.TAG_NAME }} \

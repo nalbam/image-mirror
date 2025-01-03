@@ -17,7 +17,7 @@ GITHUB_TOKEN=""
 
 BASE_IMAGE="gcr.io/istio-release/proxyv2"
 IMAGE_NAME="mirror/istio/proxyv2"
-TAG_NAME="1.22.7"
+TAG_NAME="1.24.2"
 PLATFORM="linux/amd64,linux/arm64"
 
 PAYLOAD="{\"event_type\":\"mirror\","
