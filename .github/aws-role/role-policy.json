@@ -4,6 +4,13 @@
     {
       "Effect": "Allow",
       "Action": [
+        "ecr:GetAuthorizationToken"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
         "ecr:*"
       ],
       "Resource": "arn:aws:ecr:*:*:repository/mirror/*"
